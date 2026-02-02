@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Important Question 💖</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #ffe6f0;
+        }
+
+        h1 {
+            margin-bottom: 40px;
+        }
+
+        .buttons {
+            position: relative;
+            width: 300px;
+            height: 200px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            position: absolute;
+        }
+
+        #yes {
+            left: 50px;
+            top: 100px;
+        }
+
+        #no {
+            left: 170px;
+            top: 100px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Will you be my girlfriend? 💕</h1>
+
+<div class="buttons">
+    <button id="yes">Yes 💖</button>
+    <button id="no">No 🙃</button>
+</div>
+
+<script>
+    const noButton = document.getElementById("no");
+    const yesButton = document.getElementById("yes");
+
+    noButton.addEventListener("mouseover", () => {
+        const x = Math.random() * 200;
+        const y = Math.random() * 150;
+        noButton.style.left = `${x}px`;
+        noButton.style.top = `${y}px`;
+    });
+
+    yesButton.addEventListener("click", () => {
+        document.body.innerHTML = "<h1>I don't even know how to start this without my chest tightening... but here it goes.
+Sometimes I look at you and wonder if you truly understand what you mean to me. Not the simple version, not the "I love you" people throw around... but the kind that changed the way my heart beats, the way my days feel, the way my world moves.
+You came into my life quietly, but somehow you became the loudest part of my heart. And lately, I've been carrying this fear the fear of losing you, the fear of waking up one day and realizing ! was just another passing chapter in your book while you became the whole story in mine.
+I know I'm not perfect. I know l've made mistakes, spoken wrong sometimes, failed to show you how much I need you. But the truth is, l've never cared about someone the way I care about you. It scares me how much power you have over my happiness... but it also warms me, because it means I finally found someone worth that risk.
+You're not just my girlfriend.
+You're the person I want to tell my good news to... and the person I want to run to when I'm breaking inside.
+You're the calm in my storms, even when you don't realize it.
+And if you ever felt even once that you are not enough, that you don't matter, I want you to read these words again and again: You are my heart in human form.
+I don't want anyone else.
+I don't even look at the world the same since you walked into mine.
+And if you ever cried thinking I don't love you... I swear those are the tears l'd cross oceans to wipe away.
+I'm here.
+Not because I'm lonely, not because I need someone but because your soul feels like home, and I don't want to lose the only place l've ever truly felt safe!! ❤️🥰</h1>";
+    });
+</script>
+
+</body>
+</html>
