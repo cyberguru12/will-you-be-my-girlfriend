@@ -93,6 +93,17 @@ button {
   to { transform: translateY(-10vh); opacity: 0; }
 }
 
+/* Love letter */
+#loveLetter {
+  display: none;
+  color: #fff;
+  font-size: 1.5em;
+  margin: 40px auto;
+  max-width: 800px;
+  line-height: 1.6em;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
 canvas {
   position: absolute;
   top: 0;
@@ -112,15 +123,23 @@ canvas {
   <div id="couple">
     <div class="couple">👦 ❤️ 👧</div>
     <div id="kiss">💋</div>
-    <h1>Forever starts now 💍</h1>
+  </div>
+
+  <div id="loveLetter">
+    <p>
+      My dearest, <br>
+      From the moment our paths crossed, <br>
+      my heart knew it had found its home in you. <br>
+      Your laughter is the melody I live for, <br>
+      your smile the light that guides my every step. <br>
+      With you, every moment blooms like a thousand roses, <br>
+      and I promise to cherish you, <br>
+      forever and always. 💖
+    </p>
   </div>
 
   <canvas id="confetti"></canvas>
 </div>
-
-<audio autoplay loop>
-  <source src="romantic.mp3" type="audio/mpeg">
-</audio>
 
 <script>
 /* NO button logic */
@@ -144,10 +163,11 @@ document.getElementById("yes").onclick = () => {
   document.getElementById("yes").style.display = "none";
   document.getElementById("no").style.display = "none";
   document.getElementById("couple").style.display = "block";
+  document.getElementById("loveLetter").style.display = "block";
   startConfetti();
   spawnRoses();
 
-  // Screenshot moment 💖
+  // Screenshot moment
   setTimeout(() => {
     html2canvas(document.body).then(canvas => {
       const link = document.createElement("a");
