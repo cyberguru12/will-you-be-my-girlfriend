@@ -1,59 +1,208 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Just One Question 💖</title>
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <style>
-    body {
-      text-align: center;
-      font-family: 'Arial';
-      background: linear-gradient(#ffd6e8, #fff);
-      height: 100vh;
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<title>Just One Question 💖</title>
 
-    h1 {
-      margin-top: 80px;
-    }
+<!-- Screenshot library -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-    button {
-      padding: 12px 25px;
-      font-size: 18px;
-      position: absolute;
-      cursor: pointer;
-    }
+<style>
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #ffdde1, #ee9ca7);
+}
 
-    #yes { left: 40%; top: 55%; }
-    #no { left: 55%; top: 55%; }
-  </style>
+#container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+h1 {
+  margin-top: 8vh;
+  color: white;
+  font-size: 3em;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+button {
+  position: absolute;
+  padding: 15px 30px;
+  font-size: 1.3em;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+#yes {
+  left: 40%;
+  top: 60%;
+  background: #ff4d6d;
+  color: white;
+}
+
+#no {
+  left: 55%;
+  top: 60%;
+  background: #333;
+  color: white;
+}
+
+/* Couple scene */
+#couple {
+  display: none;
+  margin-top: 50px;
+}
+
+.couple {
+  font-size: 120px;
+  animation: together 3s ease forwards;
+}
+
+@keyframes together {
+  from { letter-spacing: 120px; }
+  to { letter-spacing: 10px; }
+}
+
+#kiss {
+  font-size: 80px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+/* Roses */
+.rose {
+  position: absolute;
+  font-size: 40px;
+  animation: floatRose linear infinite;
+}
+
+@keyframes floatRose {
+  from { transform: translateY(100vh); opacity: 1; }
+  to { transform: translateY(-10vh); opacity: 0; }
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+</style>
 </head>
+
 <body>
 
-<h1>Will you be my girlfriend? 💕</h1>
+<div id="container">
+  <h1 id="question">Will you be my girlfriend? 💕</h1>
 
-<button id="yes">Yes 💖</button>
-<button id="no">No 🙈</button>
+  <button id="yes">Yes 💖</button>
+  <button id="no">No 🙈</button>
+
+  <div id="couple">
+    <div class="couple">👦 ❤️ 👧</div>
+    <div id="kiss">💋</div>
+    <h1>Forever starts now 💍</h1>
+  </div>
+
+  <canvas id="confetti"></canvas>
+</div>
 
 <audio autoplay loop>
   <source src="romantic.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-  emailjs.init("YOUR_PUBLIC_KEY"); // ← change this
+/* NO button logic */
+let noCount = 0;
+const noBtn = document.getElementById("no");
 
-  const noBtn = document.getElementById("no");
-  noBtn.onmouseover = () => {
-    noBtn.style.left = Math.random() * 80 + "%";
-    noBtn.style.top = Math.random() * 80 + "%";
-  };
+noBtn.addEventListener("mouseover", () => {
+  if (noCount >= 3) return;
+  noCount++;
+  noBtn.style.left = Math.random() * 80 + "%";
+  noBtn.style.top = Math.random() * 80 + "%";
+  if (noCount === 3) {
+    noBtn.innerText = "😳 Okay okay...";
+    noBtn.style.background = "#999";
+  }
+});
 
-  document.getElementById("yes").onclick = () => {
-    document.body.innerHTML = "<h1>She said YES ❤️🥰</h1>";
+/* YES click */
+document.getElementById("yes").onclick = () => {
+  document.getElementById("question").style.display = "none";
+  document.getElementById("yes").style.display = "none";
+  document.getElementById("no").style.display = "none";
+  document.getElementById("couple").style.display = "block";
+  startConfetti();
+  spawnRoses();
 
-    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-      message: "She said YES ❤️"
+  // Screenshot moment 💖
+  setTimeout(() => {
+    html2canvas(document.body).then(canvas => {
+      const link = document.createElement("a");
+      link.download = "our-moment.png";
+      link.href = canvas.toDataURL();
+      link.click();
     });
-  };
+  }, 2000);
+};
+
+/* Confetti */
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+let confetti = [];
+
+function startConfetti() {
+  for (let i = 0; i < 250; i++) {
+    confetti.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 6 + 4,
+      d: Math.random() * 6 + 2,
+      c: `hsl(${Math.random()*360},100%,50%)`
+    });
+  }
+  draw();
+}
+
+function draw() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confetti.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle = p.c;
+    ctx.fill();
+    p.y += p.d;
+    if (p.y > canvas.height) p.y = -10;
+  });
+  requestAnimationFrame(draw);
+}
+
+/* Floating roses */
+function spawnRoses() {
+  setInterval(() => {
+    const rose = document.createElement("div");
+    rose.className = "rose";
+    rose.innerText = "🌹";
+    rose.style.left = Math.random() * 100 + "vw";
+    rose.style.animationDuration = (Math.random() * 5 + 5) + "s";
+    document.body.appendChild(rose);
+    setTimeout(() => rose.remove(), 8000);
+  }, 500);
+}
 </script>
 
 </body>
