@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Valentine Proposal 💖</title>
+
+<!-- Screenshot library -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #fde2e4, #ffc6d6);
+  overflow: hidden;
+}
+
+#container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  text-align: center;
+}
+
+/* Love letter */
+#loveLetterScreen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #fff1f2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+#loveLetterText {
+  max-width: 700px;
+  height: 60%;
+  overflow-y: auto;
+  font-size: 16px;
+  color: #4a2c2a;
+  line-height: 1.6em;
+  background: #ffe4e6;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+#proceedBtn {
+  margin-top: 20px;
+  padding: 15px 30px;
+  font-size: 18px;
+  color: white;
+  background: #ff4d6d;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+/* Question Screen */
+#questionScreen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #fde2e4, #ffc6d6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#questionScreen h1 {
+  font-size: 28px;
+  color: #7a1c2d;
+  margin-bottom: 50px;
+}
+
+button.answerBtn {
+  padding: 15px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+#yesBtn {
+  background: #ff4d6d;
+  color: white;
+}
+
+#noBtn {
+  background: #b5838d;
+  color: white;
+  position: absolute;
+}
+
+/* Confetti canvas */
+#confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Couple animation */
+#couple {
+  display: none;
+  font-size: 100px;
+  margin-top: 30px;
+  animation: together 3s ease forwards;
+}
+
+@keyframes together {
+  from { letter-spacing: 120px; }
+  to { letter-spacing: 10px; }
+}
+
+#kiss {
+  display: none;
+  font-size: 80px;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+/* Floating roses */
+.rose {
+  position: absolute;
+  font-size: 40px;
+  animation: floatRose linear infinite;
+}
+
+@keyframes floatRose {
+  from { transform: translateY(100vh); opacity: 1; }
+  to { transform: translateY(-10vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+<div id="container">
+
+  <!-- LOVE LETTER SCREEN -->
+  <div id="loveLetterScreen">
+    <div id="loveLetterText">
+      I don't even know how to start this without my chest tightening... but here it goes.<br><br>
+      Sometimes I look at you and wonder if you truly understand what you mean to me. Not the simple version, not the "I love you" people throw around... but the kind that changed the way my heart beats, the way my days feel, the way my world moves.<br><br>
+      You came into my life quietly, but somehow you became the loudest part of my heart. And lately, I've been carrying this fear — the fear of losing you, the fear of waking up one day and realizing I was just another passing chapter in your book while you became the whole story in mine.<br><br>
+      I know I'm not perfect. I know I've made mistakes, spoken wrong sometimes, failed to show you how much I need you. But the truth is, I've never cared about someone the way I care about you. It scares me how much power you have over my happiness... but it also warms me, because it means I finally found someone worth that risk.<br><br>
+      You're not just my girlfriend.<br>
+      You're the person I want to tell my good news to... and the person I want to run to when I'm breaking inside.<br>
+      You're the calm in my storms, even when you don't realize it.<br><br>
+      And if you ever felt even once that you are not enough, that you don't matter, I want you to read these words again and again:<br><br>
+      You are my heart in human form.<br><br>
+      I don't want anyone else.<br>
+      I don't even look at the world the same since you walked into mine.<br><br>
+      And if you ever cried thinking I don't love you... I swear those are the tears I'd cross oceans to wipe away.<br><br>
+      I'm here.<br>
+      Not because I'm lonely, not because I need someone — but because your soul feels like home, and I don't want to lose the only place I've ever truly felt safe.
+    </div>
+    <button id="proceedBtn">Proceed ❤️</button>
+  </div>
+
+  <!-- QUESTION SCREEN -->
+  <div id="questionScreen">
+    <h1>Will you be my Valentine? 💌</h1>
+    <button class="answerBtn" id="yesBtn">Yes 💖</button>
+    <button class="answerBtn" id="noBtn">No 🙈</button>
+    <div id="couple">👦 ❤️ 👧</div>
+    <div id="kiss">💋</div>
+  </div>
+
+  <!-- Confetti canvas -->
+  <canvas id="confetti"></canvas>
+</div>
+
+<script>
+const proceedBtn = document.getElementById("proceedBtn");
+const loveLetterScreen = document.getElementById("loveLetterScreen");
+const questionScreen = document.getElementById("questionScreen");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const couple = document.getElementById("couple");
+const kiss = document.getElementById("kiss");
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// --- Love Letter Proceed ---
+proceedBtn.onclick = () => {
+  loveLetterScreen.style.display = "none";
+  questionScreen.style.display = "flex";
+};
+
+// --- NO BUTTON MOVES ---
+noBtn.addEventListener("mouseenter", () => {
+  const x = Math.random() * (window.innerWidth - 120);
+  const y = Math.random() * (window.innerHeight - 60);
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+});
+
+// --- YES BUTTON ---
+yesBtn.onclick = () => {
+  couple.style.display = "block";
+  kiss.style.display = "block";
+  startConfetti();
+};
+
+// --- Confetti animation ---
+let confetti = [];
+function startConfetti() {
+  for (let i = 0; i < 200; i++) {
+    confetti.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 6 + 4,
+      d: Math.random() * 5 + 2,
+      color: `hsl(${Math.random()*360},100%,50%)`
+    });
+  }
+  draw();
+}
+
+function draw() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confetti.forEach(p => {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fillStyle = p.color;
+    ctx.fill();
+    p.y += p.d;
+    if (p.y > canvas.height) p.y = -10;
+  });
+  requestAnimationFrame(draw);
+}
+
+// --- Floating Roses ---
+setInterval(() => {
+  const rose = document.createElement("div");
+  rose.className = "rose";
+  rose.innerText = "🌹";
+  rose.style.left = Math.random() * window.innerWidth + "px";
+  rose.style.animationDuration = (Math.random() * 5 + 5) + "s";
+  document.body.appendChild(rose);
+  setTimeout(() => rose.remove(), 8000);
+}, 500);
+</script>
+</body>
+</html>
